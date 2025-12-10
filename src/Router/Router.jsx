@@ -5,6 +5,9 @@ import AuthLayout from "../FirebaseAuth/AuthLayout";
 import Login from "../FirebaseAuth/Login";
 import Register from "../FirebaseAuth/Register";
 import Logout from "../FirebaseAuth/Logout";
+import Dashboard from "../Dashboard/Dashboard";
+import AddTicket from "../Dashboard/VendorPage/AddTicket";
+import MyAddedTickets from "../Dashboard/MyAddedTickets";
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +18,26 @@ export const router = createBrowserRouter([
                 index :true ,
                 element :<Home></Home>,
             },
+            {
+                path:"/dashboard",
+                element :<Dashboard></Dashboard>,
+                children :[
+                    {
+                        path:"addTicket",
+                        element :<AddTicket></AddTicket>
+                    },
+                    {
+                        path:"myAddedTickets",
+                        element : <MyAddedTickets></MyAddedTickets>
+                    },
+                
+                ]
+            },
+
+
+
+
+
 
             {
                 element : <AuthLayout></AuthLayout>,

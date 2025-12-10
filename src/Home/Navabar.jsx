@@ -31,7 +31,10 @@ const Navabar = () => {
         <ul className="menu menu-horizontal px-1">
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/allTickets">All Tickets</NavLink></li>
-          <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+
+       { user && <>
+        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+       </> }
         </ul>
       </div>
 
