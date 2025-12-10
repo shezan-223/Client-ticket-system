@@ -6,7 +6,7 @@ import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import Swal from "sweetalert2";
 
 const AddTicket = () => {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, watch,reset } = useForm();
   const { user } = UseAuth();
   const axiosSecure = UseAxiosSecure();
 
@@ -59,6 +59,7 @@ const AddTicket = () => {
         icon: "success",
         confirmButtonColor: "#3085d6",
       });
+      // reset() ;
     } catch (error) {
       console.error(error);
 
