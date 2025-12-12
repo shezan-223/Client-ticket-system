@@ -8,6 +8,8 @@ import Logout from "../FirebaseAuth/Logout";
 import Dashboard from "../Dashboard/Dashboard";
 import AddTicket from "../Dashboard/VendorPage/AddTicket";
 import MyAddedTickets from "../Dashboard/MyAddedTickets";
+import Profile from "../Component/Profile";
+
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +20,7 @@ export const router = createBrowserRouter([
                 index :true ,
                 element :<Home></Home>,
             },
+            
             {
                 path:"/dashboard",
                 element :<Dashboard></Dashboard>,
@@ -32,6 +35,10 @@ export const router = createBrowserRouter([
                     },
                 
                 ]
+            },
+            {
+                path:"/profile",
+                element :<Profile></Profile>        
             },
 
 

@@ -5,6 +5,8 @@ import UseAuth from '../FirebaseAuth/UseAuth';
 
 const Navabar = () => {
   const { user, logOut } = UseAuth();
+  console.log(user);
+  
 
   const handleLogOut = () => {
     logOut()
@@ -34,6 +36,7 @@ const Navabar = () => {
 
        { user && <>
         <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+        <li><NavLink to="/profile">Profile</NavLink></li>
        </> }
         </ul>
       </div>
@@ -83,6 +86,7 @@ const Navabar = () => {
             <>
               <li><Link to="/login">Login</Link></li>
               <li><Link to="/register">Register</Link></li>
+              <li><NavLink to="/profile">Profile</NavLink></li>
             </>
           )}
 

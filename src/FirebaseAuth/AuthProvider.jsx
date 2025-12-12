@@ -1,31 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import AuthContext from './AuthContext';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from './firebase.init';
 import { GoogleAuthProvider } from 'firebase/auth';
+import UseAxiosSecure from '../Hooks/UseAxiosSecure';
+import useAxiosPublic from '../Hooks/UseAxiosPublic';
+
+
 
 const AuthProvider = ({children}) => {
+   
+    const axiosPublic =useAxiosPublic()
 
 const [user,setUser]=useState(null)
 const [loading ,setLoading]= useState(true) 
 
 
-const registerUser =(email,password)=>{
+const registerUser =async(email,password,name, photoURL)=>{
     setLoading(true)
 
-    return createUserWithEmailAndPassword(auth,email,password)
+   const result = await createUserWithEmailAndPassword(auth, email, password);
+  const user = result.user;
+  await updateProfile(user, {
+            displayName: name,
+            photoURL: photoURL || null,
+        });
+
+  // Send user info to MongoDB
+  await axiosPublic.post('/users', {
+    name: name || "Unknown",
+    email: user.email,
+    photo: photoURL || null,
+    role: 'user'
+  });
+setLoading(false)
+  return result;
 }
 
 
-const googleProvider =new GoogleAuthProvider()
-const signInWithGoogle =()=>{
+const signInWithGoogle = async()=>{
     setLoading(true)
-    return signInWithPopup(auth,googleProvider)
+    const googleProvider =new GoogleAuthProvider()
+ const result =await signInWithPopup(auth,googleProvider)
+ const user =result.user ;
+   await axiosPublic.post('/users', {
+    name: user.displayName,
+    email: user.email,
+    photo: user.photoURL,
+    role: "user",
+  });
+  setLoading(false);
+      return result;
 }
 
 
 const logOut =()=>{
-    setLoading()
+    setLoading(true)
     return signOut(auth)
 }
 
@@ -53,9 +83,9 @@ useEffect(()=>{
 
     return (
         <>
-        <AuthContext value={authInfo}>
+        <AuthContext.Provider value={authInfo}>
         {children}
-        </AuthContext>
+        </AuthContext.Provider>
         
         </>
     );
