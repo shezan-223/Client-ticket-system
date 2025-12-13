@@ -1,64 +1,61 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import UseAuth from "./UseAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import UseAxiosSecure from "../Hooks/UseAxiosSecure";
+import axios from "axios";
 import SocialLogin from "./SocialLogin";
 
 const Register = () => {
+  // 1. Hook and Context setup
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  // ⚠️ IMPORTANT: Assuming your UseAuth provides 'registerUser' and 'updateUserProfile'
+  const { registerUser, updateUserProfile } = UseAuth();
 
-  const { registerUser } = UseAuth()
+  const location = useLocation();
+  const navigate = useNavigate();
+  const axiosSecure = UseAxiosSecure();
 
-const imgbbkey =import.meta.env.VITE_IMGBB_KEY;
-console.log(imgbbkey);
-
-const imgBbUrl=`https://api.imgbb.com/1/upload?key=${imgbbkey}`;
-
-
-
+  const imgbbkey = import.meta.env.VITE_IMGBB_KEY;
+  const imgBbUrl = `https://api.imgbb.com/1/upload?key=${imgbbkey}`;
 
   const handleRegister = async (data) => {
+    // 1. Destructure all necessary fields
+    const { name, email, password, image } = data;
+    const profileImageFile = image[0];
+
     try {
-      // 1. Upload image to ImgBB
+      // --- Phase 1: Upload Image to ImgBB ---
       const formData = new FormData();
-      formData.append("image", data.image[0]);
+      formData.append("image", profileImageFile);
 
-      const imgRes = await fetch(imgBbUrl, {
-        method: "POST",
-        body: formData,
-      });
+      // Use axios for cleaner ImgBB upload
+      const imgRes = await axios.post(imgBbUrl, formData);
+      const photoURL = imgRes.data.data.url;
 
-      const imgData = await imgRes.json();
+      // --- Phase 2: Create User in Firebase ---
+      // ⚠️ NOTE: We do NOT pass name/photoURL here. We update the profile later.
+      const dbResData = await registerUser(email, password, name, photoURL);
 
-      console.log(imgData ,"the error");
       
-      const imageUrl = imgData.data.display_url;
-
-      // 2. Register in Firebase
-      const result = await registerUser(data.email, data.password);
-      console.log(result);
+    
+      // --- Phase 4: Create User in MongoDB (Using fixed data) ---
       
-      // 3. Save user in your MongoDB
-      const userInfo = {
-        name: data.name,
-        email: data.email,
-        photo: imageUrl,
-        role: "user",
-      };
 
-      await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userInfo),
-      });
-
-      console.log("User registered with ImgBB image");
+      if (dbResData.insertedId) {
+        console.log("User created in Firebase & MongoDB successfully!");
+        // Success message or navigation
+        navigate(location.state ? location.state : "/");
+      } else if (dbResData.message === "User already exists") {
+        console.log("User logged in, but already in DB.");
+        navigate(location.state ? location.state : "/");
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Registration Error:", error);
+      // Handle specific errors (e.g., Firebase error messages)
     }
   };
 
@@ -73,57 +70,59 @@ const imgBbUrl=`https://api.imgbb.com/1/upload?key=${imgbbkey}`;
             <label className="label">Name</label>
             <input
               type="text"
-              {...register("name", { required: true })}
+              {...register("name", { required: "Name is required." })}
               className="input"
               placeholder="Enter Your Name"
             />
-           {/* Image Upload */}
-           <label className="label">Upload Profile Photo</label>
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
+
+            {/* Image Upload */}
+            <label className="label">Upload Profile Photo</label>
             <input
               type="file"
               accept="image/*"
-              {...register("image", { required: true })}
+              {...register("image", { required: "Photo is required." })} // Changed field name to 'image' for consistency
               className="input"
             />
-
-
-
+            {errors.image && (
+              <p className="text-red-500 text-sm">{errors.image.message}</p>
+            )}
 
             {/* Email field */}
             <label className="label">Email</label>
             <input
               type="email"
-              {...register("email", { required: true })}
+              {...register("email", { required: "Email is required." })}
               className="input"
               placeholder="Email"
             />
-            {errors.email?.type === "required" && (
+            {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
 
-            
-
+            {/* Password field */}
             <label className="label">Password</label>
             <input
               type="password"
-              {...register("password", { required: true, minLength: 6 })}
+              {...register("password", {
+                required: "Password is required.",
+                minLength: {
+                  value: 6,
+                  message: "Password must be 6 characters or longer",
+                },
+                pattern: {
+                  value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
+                  message:
+                    "Must have 1 uppercase, 1 lowercase, 1 number, and 1 special character",
+                },
+              })}
               className="input"
               placeholder="Password"
             />
-            {errors.password?.type === "required" && (
-              <p className="text-red-500">Password is required</p>
-            )}
-
-            {errors.password?.type === "minLength" && (
-              <p className="text-red-500">
-                password should have minimun 6 Charecter{" "}
-              </p>
-            )}
-            {errors.password?.type === "pattern" && (
-              <p className="text-red-500">
-                password should have one uppercase one lower case one number and
-                one special charecter{" "}
-              </p>
+            {errors.password && (
+              <p className="text-red-500">{errors.password.message}</p>
             )}
 
             <div>
@@ -133,14 +132,14 @@ const imgBbUrl=`https://api.imgbb.com/1/upload?key=${imgbbkey}`;
           </fieldset>
 
           <p>
-            Already have an Accout ?
+            Already have an Account ?
             <Link className="text-blue-500 ml-2" to="/login">
               Login
-            </Link>{" "}
+            </Link>
           </p>
         </form>
         <br />
-        <SocialLogin></SocialLogin>
+        <SocialLogin />
       </div>
     </div>
   );

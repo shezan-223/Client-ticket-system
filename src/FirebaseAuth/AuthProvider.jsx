@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AuthContext from './AuthContext';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from './firebase.init';
 import { GoogleAuthProvider } from 'firebase/auth';
 import UseAxiosSecure from '../Hooks/UseAxiosSecure';
@@ -16,25 +16,38 @@ const [user,setUser]=useState(null)
 const [loading ,setLoading]= useState(true) 
 
 
-const registerUser =async(email,password,name, photoURL)=>{
-    setLoading(true)
+const registerUser =async(email, password,name, photoURL)=>{ // ⬅️ Remove name/photoURL from signature if you use updateUserProfile separately
 
-   const result = await createUserWithEmailAndPassword(auth, email, password);
-  const user = result.user;
-  await updateProfile(user, {
+    setLoading(true);
+
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    const authuser = result.user;
+    
+    await updateProfile(authuser, {
             displayName: name,
             photoURL: photoURL || null,
         });
 
-  // Send user info to MongoDB
-  await axiosPublic.post('/users', {
-    name: name || "Unknown",
-    email: user.email,
-    photo: photoURL || null,
-    role: 'user'
-  });
-setLoading(false)
-  return result;
+        const dbRes = await axiosPublic.post('/users', {
+            name: name,
+            email: authuser.email,
+            photo: photoURL,
+            role: "user",
+        });
+
+        setLoading(false);
+        // Return the MongoDB response data for the Register component to check
+        return dbRes.data;
+
+    
+  
+}
+
+
+const signInUser = (email, password) => { // ⬅️ NEW FUNCTION
+    setLoading(true);
+    // Use the correct Firebase function for signing in
+    return signInWithEmailAndPassword(auth, email, password); 
 }
 
 
@@ -78,7 +91,8 @@ useEffect(()=>{
         loading,
          registerUser,
          signInWithGoogle,
-         logOut
+         logOut,
+         signInUser
     }
 
     return (

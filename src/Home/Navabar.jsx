@@ -33,10 +33,10 @@ const Navabar = () => {
         <ul className="menu menu-horizontal px-1">
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/allTickets">All Tickets</NavLink></li>
-
+          <li><NavLink to="/profile">Profile</NavLink></li>
        { user && <>
         <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-        <li><NavLink to="/profile">Profile</NavLink></li>
+        
        </> }
         </ul>
       </div>
@@ -80,13 +80,13 @@ const Navabar = () => {
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/allTickets">All Tickets</NavLink></li>
           <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-
+             <li><NavLink to="/profile">Profile</NavLink></li>
           {/* Mobile auth conditions */}
           {!user && (
             <>
               <li><Link to="/login">Login</Link></li>
               <li><Link to="/register">Register</Link></li>
-              <li><NavLink to="/profile">Profile</NavLink></li>
+           
             </>
           )}
 

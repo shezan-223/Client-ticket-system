@@ -1,15 +1,32 @@
 import React from 'react';
 import UseAuth from './UseAuth';
+import { useNavigate } from 'react-router';
+import UseAxiosSecure from '../Hooks/UseAxiosSecure';
 
 const SocialLogin = () => {
 
     const {signInWithGoogle} =UseAuth()
+    const navigate =useNavigate()
+    const axiosSecure =UseAxiosSecure()
 
 const handleGoogleSignIn = () => {
     signInWithGoogle()
     .then(result =>{
         const loggedUser = result.user;
         console.log(loggedUser);
+        navigate(location.state || "/")
+         const userInfo = {
+        name:result.user.displayName,
+        email: result.user.email,
+        photo: result.user.photoURL,
+        // Default role
+      };
+      axiosSecure.post("/users",userInfo)
+      .then(res=>{
+        console.log("user ifo stored");
+         navigate(location.state || "/")
+        
+      })
     }
 
     )
