@@ -9,6 +9,8 @@ import Dashboard from "../Dashboard/Dashboard";
 import AddTicket from "../Dashboard/VendorPage/AddTicket";
 import MyAddedTickets from "../Dashboard/MyAddedTickets";
 import Profile from "../Component/Profile";
+import PrivateRoute from "./PrivateRoute";
+import ManageUsers from "../Dashboard/AdminPage/ManageUser";
 
 
 export const router = createBrowserRouter([
@@ -27,12 +29,20 @@ export const router = createBrowserRouter([
                 children :[
                     {
                         path:"addTicket",
-                        element :<AddTicket></AddTicket>
+                        element : <PrivateRoute>
+                            <AddTicket></AddTicket>
+                        </PrivateRoute>
                     },
                     {
                         path:"myAddedTickets",
-                        element : <MyAddedTickets></MyAddedTickets>
+                        element : <PrivateRoute>
+                            <MyAddedTickets></MyAddedTickets>
+                        </PrivateRoute>
                     },
+                    {
+                        path:"manageusers",
+                        element :<ManageUsers></ManageUsers>
+                    }
                 
                 ]
             },

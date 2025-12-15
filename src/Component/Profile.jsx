@@ -7,14 +7,16 @@ const Profile = () => {
   const { user, loading } = UseAuth();
   const axiosSecure = UseAxiosSecure();
   const userEmail = user?.email;
+  const hasToken = localStorage.getItem('access-token');
 
   const {
     data: dbUser = {},
-    isloading: isDbLoading,
+    isLoading: isDbLoading,
     error: dbError,
   } = useQuery({
     queryKey: ["dbUser", userEmail],
-    enabled: !!userEmail && !loading,
+    enabled: !!userEmail && !loading && !!hasToken, 
+    // && !!hasToken
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/${userEmail}`);
       return res.data;

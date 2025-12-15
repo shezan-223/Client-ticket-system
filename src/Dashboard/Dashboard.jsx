@@ -3,6 +3,7 @@ import { IoTicket } from 'react-icons/io5';
 import { Link, NavLink, Outlet } from 'react-router';
 import UseAuth from '../FirebaseAuth/UseAuth';
 import { MdOutlineFormatListBulleted } from 'react-icons/md';
+import { HiUserGroup } from 'react-icons/hi';
 
 const Dashboard = () => {
 
@@ -64,6 +65,13 @@ console.log(user);
             {/* Home icon */}
           <MdOutlineFormatListBulleted />
             <span className="is-drawer-close:hidden">My Added Tickets</span>
+          </Link>
+        </li>
+      <li>
+             <Link to="/dashboard/manageusers" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users">
+            {/* Home icon */}
+          <HiUserGroup />
+            <span className="is-drawer-close:hidden">Manage Users</span>
           </Link>
         </li>
 
