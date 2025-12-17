@@ -103,11 +103,11 @@ const MyAddedTickets = () => {
                   <span className="font-semibold">Type:</span> {ticket.type}
                 </p>
                 <p className="text-gray-600 mb-1">
-                  <span className="font-semibold">Price:</span> {ticket.price} ×{" "}
-                  {ticket.quantity}
+                  <span className="font-semibold">Price:</span> {ticket.price} 
+                  
                 </p>
                 <p className="text-gray-600 mb-1">
-                  <span className="font-semibold">Total:</span> {ticket.total}
+                  <span className="font-semibold">Ticket Quantity</span> {ticket.quantity}
                 </p>
                 <p className="text-gray-600 mb-3">
                   <span className="font-semibold">Date & Time:</span>{" "}

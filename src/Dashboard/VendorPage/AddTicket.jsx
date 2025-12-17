@@ -39,7 +39,7 @@ const AddTicket = () => {
         type: data.type,
         price: Number(data.price),
         quantity: Number(data.quantity),
-        total: total,
+       
         date: data.date,
         time: data.time,
         perks: Array.isArray(data.perks) ? data.perks : [], // ensure array
@@ -130,7 +130,7 @@ const AddTicket = () => {
             />
             </label>
           </div>
-          <label >
+          {/* <label >
             
           </label> Total Price
             <input
@@ -138,7 +138,7 @@ const AddTicket = () => {
               readOnly
               className="input input-bordered w-full bg-gray-200"
               placeholder="Total Cost "
-            />
+            /> */}
           <div className="grid grid-cols-2 gap-4">
           </div>
 
