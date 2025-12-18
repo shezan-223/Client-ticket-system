@@ -6,7 +6,7 @@ import { MdOutlineFormatListBulleted } from "react-icons/md";
 import { HiUserGroup } from "react-icons/hi";
 import UseAdmin from "../Hooks/UseAdmin";
 import UseVendor from "../Hooks/Usevendor";
-import { FaBullhorn, FaClipboardList } from "react-icons/fa";
+import { FaBullhorn, FaClipboardList, FaFileInvoice, FaTicketAlt } from "react-icons/fa";
 
 const Dashboard = () => {
   const { user } = UseAuth();
@@ -88,7 +88,7 @@ const Dashboard = () => {
                 </Link>
               </li>
              {isVendor && ( 
-              <li>
+              <li className={`${location.pathname === "/dashboard/addTicket" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
                 <Link
                   to="/dashboard/addTicket"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -100,8 +100,24 @@ const Dashboard = () => {
                 </Link>
               </li>)}
 
+              
+              <li className={`${location.pathname === "/dashboard/myBookedTickets" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
+                <Link
+                  to="/dashboard/myBookedTickets"
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="AddTickets"
+                >
+                  {/* Home icon */}
+                  <FaFileInvoice size={20} />
+                  <span className="is-drawer-close:hidden">My Booked Tickets</span>
+                </Link>
+              </li>
+
+
+
+
               {isVendor && (
-                <li>
+                <li className={`${location.pathname === "/dashboard/myAddedTickets" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
                 <Link
                   to="/dashboard/myAddedTickets"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -115,19 +131,21 @@ const Dashboard = () => {
                 </Link>
               </li>)}
               {isAdmin && (
-                <li>
+                <li className={`${location.pathname === "/dashboard/manageusers" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
                   <Link
                     to="/dashboard/manageusers"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Manage Users"
                   >
-                    <HiUserGroup size={20} className="text-green-600"/>
+                    <HiUserGroup size={20} />
                     <span className="is-drawer-close:hidden">Manage Users</span>
                   </Link>
                 </li>
               )}
+
+              {/* admin section */}
               {isAdmin && (
-                <li>
+                <li className={`${location.pathname === "/dashboard/managetickets" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
                   <Link
                     to="/dashboard/managetickets"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -139,7 +157,7 @@ const Dashboard = () => {
                 </li>
               )}
               {isAdmin && (
-                <li>
+                <li className={`${location.pathname === "/dashboard/advertiseTickets" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
                   <Link
                     to="/dashboard/advertiseTickets"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
