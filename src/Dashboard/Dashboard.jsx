@@ -7,6 +7,7 @@ import { HiUserGroup } from "react-icons/hi";
 import UseAdmin from "../Hooks/UseAdmin";
 import UseVendor from "../Hooks/Usevendor";
 import { FaBullhorn, FaClipboardList, FaFileInvoice, FaTicketAlt } from "react-icons/fa";
+import { FaCodePullRequest } from "react-icons/fa6";
 
 const Dashboard = () => {
   const { user } = UseAuth();
@@ -105,7 +106,7 @@ const Dashboard = () => {
                 <Link
                   to="/dashboard/myBookedTickets"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="AddTickets"
+                  data-tip="My Booked Tickets"
                 >
                   {/* Home icon */}
                   <FaFileInvoice size={20} />
@@ -130,6 +131,24 @@ const Dashboard = () => {
                   </span>
                 </Link>
               </li>)}
+
+
+              {isVendor && (
+                <li className={`${location.pathname === "/dashboard/myAddedTickets" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
+                <Link
+                  to="/dashboard/requestedBookings"
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Requested Bookings"
+                >
+                  {/* Home icon */}
+                  <FaCodePullRequest size={20} />
+                  <span className="is-drawer-close:hidden">
+                    Requested Bookings
+                  </span>
+                </Link>
+              </li>)}
+
+
               {isAdmin && (
                 <li className={`${location.pathname === "/dashboard/manageusers" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
                   <Link
