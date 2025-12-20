@@ -66,36 +66,36 @@ const Navabar = () => {
 
       {/* Mobile Menu */}
       <div className="lg:hidden flex-none dropdown dropdown-end">
-        <label tabIndex={0} className="btn btn-ghost btn-circle">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </label>
+  {/* Changed label to button for better focus handling */}
+  <button tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+      viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+        d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
 
-        <ul tabIndex={0}
-          className="menu menu-sm dropdown-content mt-3 z-100 p-2 shadow bg-base-100 rounded-box w-52">
+  {/* Added z-[50] to ensure it stays above the Banner/Slider */}
+  <ul tabIndex={0}
+    className="menu menu-sm dropdown-content mt-3 z-[50] p-2 shadow bg-base-100 rounded-box w-52">
 
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/allTickets">All Tickets</NavLink></li>
-          <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-             <li><NavLink to="/profile">Profile</NavLink></li>
-          {/* Mobile auth conditions */}
-          {!user && (
-            <>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/register">Register</Link></li>
-           
-            </>
-          )}
+    <li><NavLink to="/">Home</NavLink></li>
+    <li><NavLink to="/allTickets">All Tickets</NavLink></li>
+    {user && <li><NavLink to="/dashboard">Dashboard</NavLink></li>}
+    <li><NavLink to="/profile">Profile</NavLink></li>
 
-          {user && (
-            <li><button onClick={handleLogOut}>Logout</button></li>
-          )}
-
-        </ul>
-      </div>
+    {/* Mobile auth conditions */}
+    {!user ? (
+      <>
+        <div className="divider my-1"></div>
+        <li><Link to="/login">Login</Link></li>
+        <li><Link to="/register">Register</Link></li>
+      </>
+    ) : (
+      <li><button onClick={handleLogOut} className="text-red-500 font-bold">Logout</button></li>
+    )}
+  </ul>
+</div>
 
     </div>
   );

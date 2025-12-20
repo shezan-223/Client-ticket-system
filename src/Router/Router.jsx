@@ -22,6 +22,7 @@ import RequestedBookings from "../Dashboard/VendorPage/RequestedBookings";
 import Payment from "../Dashboard/Payment";
 import PaymentHistory from "../Dashboard/UserPage/PaymentHistory";
 import Banner from "../Home/Banner";
+import Revenue from "../Dashboard/VendorPage/Revenue";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +65,12 @@ export const router = createBrowserRouter([
           </PrivateRoute>
 
 
+        },
+        {
+          path:"revenue",
+          element :<VendorRoute>
+            <Revenue></Revenue>
+          </VendorRoute>
         },
         {
           path:"paymentHistory",

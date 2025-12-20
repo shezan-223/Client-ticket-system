@@ -3,12 +3,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAqSVNZwke8bpcG6Z4LLJuKsRV0JC3XeD0",
-  authDomain: "tickert-bari.firebaseapp.com",
-  projectId: "tickert-bari",
-  storageBucket: "tickert-bari.appspot.com",
-  messagingSenderId: "527436867678",
-  appId: "1:527436867678:web:d36c7c2c7c2109610e2ccf"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
