@@ -6,7 +6,7 @@ import { MdOutlineFormatListBulleted } from "react-icons/md";
 import { HiUserGroup } from "react-icons/hi";
 import UseAdmin from "../Hooks/UseAdmin";
 import UseVendor from "../Hooks/Usevendor";
-import { FaBullhorn, FaClipboardList, FaFileInvoice, FaTicketAlt } from "react-icons/fa";
+import { FaBullhorn, FaClipboardList, FaFileInvoice, FaHistory, FaTicketAlt } from "react-icons/fa";
 import { FaCodePullRequest } from "react-icons/fa6";
 
 const Dashboard = () => {
@@ -22,7 +22,7 @@ const Dashboard = () => {
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Navbar */}
-          <nav className="navbar w-full bg-base-300">
+          <nav className="navbar w-full ">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
@@ -111,6 +111,18 @@ const Dashboard = () => {
                   {/* Home icon */}
                   <FaFileInvoice size={20} />
                   <span className="is-drawer-close:hidden">My Booked Tickets</span>
+                </Link>
+              </li>
+
+              <li className={`${location.pathname === "/dashboard/paymentHistory" ? "bg-green-400 text-white font-bold" : ""} rounded-lg`}>
+                <Link
+                  to="/dashboard/paymentHistory"
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Payment History"
+                >
+                  {/* Home icon */}
+                  <FaHistory size={20} />
+                  <span className="is-drawer-close:hidden">Payment History</span>
                 </Link>
               </li>
 

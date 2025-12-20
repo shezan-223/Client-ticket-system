@@ -1,0 +1,11 @@
+:root {
+  --swiper-theme-color: #15803d; /* This is Tailwind's green-700 */
+  --swiper-navigation-size: 30px;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 50%;
+    backdrop-filter: blur(4px);
+}

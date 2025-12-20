@@ -19,6 +19,9 @@ import Advertisetickets from "../Dashboard/AdminPage/Advertisetickets";
 import TicketDetails from "../Component/TicketDetails";
 import MyBookedTickets from "../Dashboard/UserPage/MyBookedTickets";
 import RequestedBookings from "../Dashboard/VendorPage/RequestedBookings";
+import Payment from "../Dashboard/Payment";
+import PaymentHistory from "../Dashboard/UserPage/PaymentHistory";
+import Banner from "../Home/Banner";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +39,10 @@ export const router = createBrowserRouter([
         </PrivateRoute>
 
       },
+      {
+        path:"/banner",
+        element :<Banner></Banner>
+      },
 
 
       {
@@ -50,6 +57,20 @@ export const router = createBrowserRouter([
               </VendorRoute>
             ),
           },
+        {
+          path:"payment/:id",
+          element :<PrivateRoute>
+            <Payment></Payment>
+          </PrivateRoute>
+
+
+        },
+        {
+          path:"paymentHistory",
+          element :<PrivateRoute>
+            <PaymentHistory></PaymentHistory>
+          </PrivateRoute>
+        },
           {
             path:"myBookedTickets",
             element :<PrivateRoute>

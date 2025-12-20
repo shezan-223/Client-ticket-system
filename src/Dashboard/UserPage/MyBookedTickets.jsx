@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UseAuth from '../../FirebaseAuth/UseAuth';
 import UseAxiosSecure from '../../Hooks/UseAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import BookingCard from './BookingCard';
+import PaymentModal from './PaymentModal';
 
 const MyBookedTickets = () => {
   const { user } = UseAuth();
   const axiosSecure = UseAxiosSecure();
+  const [activeBooking, setActiveBooking] = useState(null);
 
   const { data: bookings = [], isLoading } = useQuery({
     queryKey: ["my-bookings", user?.email],
@@ -16,6 +18,10 @@ const MyBookedTickets = () => {
     },
     enabled: !!user?.email, // Only run if email exists
   });
+  const openStripeModal = (booking) => {
+    setActiveBooking(booking);
+    document.getElementById("payment_modal").showModal();
+  }
 
   if (isLoading) return (
     <div className="flex justify-center items-center min-h-screen">
@@ -36,10 +42,11 @@ const MyBookedTickets = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {bookings.map((booking) => (
-            <BookingCard key={booking._id} booking={booking} />
+            <BookingCard key={booking._id} booking={booking} openStripeModal={openStripeModal} />
           ))}
         </div>
       )}
+      <PaymentModal booking={activeBooking} />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import Navabar from "./Navabar";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import TicketCard from "./TicketCard";
+import Banner from "./Banner";
 
 const Home = () => {
   const axiosSecure = UseAxiosSecure();
@@ -31,7 +32,7 @@ const Home = () => {
   return (
     <div>
       {/* Hero Banner Section */}
-    
+    <Banner></Banner>
 
       <div className="max-w-7xl mx-auto px-4">
         {/* Advertisement Section */}
@@ -59,7 +60,7 @@ const Home = () => {
         </section>
 
         {/* Extra Section: Why Choose Us */}
-        <section className="my-20 bg-base-200 p-10 rounded-3xl">
+        <section className="my-20 bg-green-200 p-10 rounded-3xl">
           <div className="text-center space-y-4">
             <h2 className="text-3xl font-bold">Why Choose TicketBari?</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pt-8">

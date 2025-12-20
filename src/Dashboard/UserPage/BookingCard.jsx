@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-const BookingCard = ({ booking }) => {
+const BookingCard = ({ booking,openStripeModal }) => {
   const [timeLeft, setTimeLeft] = useState("");
-
+const departureDateTime = new Date(`${booking.date}T${booking.time}`);
+const isExpired = new Date() > departureDateTime;
   useEffect(() => {
     const timer = setInterval(() => {
       // Create a date object from the ticket's departure date and time
@@ -44,7 +45,7 @@ const BookingCard = ({ booking }) => {
         <div
           className={`absolute top-4 right-4 badge ${
             statusClass[booking.status]
-          } p-3 font-semibold uppercase text-xs`}
+          } p-3 font-semibold uppercase text-xl`}
         >
           {booking.status}
         </div>
@@ -89,13 +90,13 @@ const BookingCard = ({ booking }) => {
         </div>
 
         {/* Action Button */}
-        {booking.status === "accepted" && (
-          <div className="card-actions mt-4">
-            <button className="btn btn-success btn-sm w-full text-white">
-              Pay Now
-            </button>
-          </div>
-        )}
+        {booking.status === "accepted" && !isExpired ? (
+    <button onClick={() => openStripeModal(booking)} className="btn btn-success">
+        Pay Now
+    </button>
+) : isExpired && booking.status === "accepted" ? (
+    <span className="text-error font-bold italic">Expired - Payment Disabled</span>
+) : null}
       </div>
     </div>
   );

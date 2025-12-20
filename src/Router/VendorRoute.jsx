@@ -1,7 +1,7 @@
 import React from "react";
 import UseAuth from "../FirebaseAuth/UseAuth";
 import UseVendor from "../Hooks/Usevendor";
-import { useLocation } from "react-router";
+import { Navigate, useLocation } from "react-router";
 
 const VendorRoute = ({ children }) => {
   const { user, loading } = UseAuth();
