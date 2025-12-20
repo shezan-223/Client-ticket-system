@@ -2,7 +2,7 @@ import { BiDollar } from "react-icons/bi";
 import { FaBusAlt, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaPlane, FaTrain } from "react-icons/fa";
 import { Link } from "react-router";
 
-
+const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const TicketCard = ({ ticket }) => {
   // Determine the icon and primary color based on the transport type
   let TypeIcon = FaBusAlt;
@@ -21,8 +21,7 @@ const TicketCard = ({ ticket }) => {
       {/* Ticket Image */}
       <figure className="h-48 overflow-hidden">
         <img
-          src={ticket.image}
-          alt={ticket.title}
+          src={`${baseUrl}${ticket.image}`} alt="Ticket"
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
       </figure>
